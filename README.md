@@ -8,8 +8,8 @@ This script should backup any blog on israblog to your computer in it's original
 # instructions  
 
 There are two options to run the script:  
-A. download the "israblog_backup.py" and the "include.js" files and run the python script.  
-B. download the "israblog_backup.zip" file, extract the content and run the "israblog_backup.exe" file.  
+A. download "israblog_backup.py", "functions.js" and "include.js" files and run the python script.  
+B. download "israblog_backup.zip" file, extract the content and run "israblog_backup.exe".  
   
 After you ran it, it will ask you for your userID, which can be found here:  
 <img src="https://i.imgur.com/SFo8axq.png">  
@@ -20,8 +20,8 @@ Insert the userID and after a few minutes (the exact time depends on how big is 
 - next and previous month links
 - page number links
 - archive links on the side  
-- show comments here link  
-- other things will probably not work but you are welcome to try :P (I just worked on the essentials)  
+- show comments here and popup links  
+- other things will probably not work, but you are welcome to try :P (I just worked on the essentials)  
 
 # donations  
 You are most welcome to use this for free but any donations will be appriciated ;)  
