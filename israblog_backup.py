@@ -1,6 +1,7 @@
 import httplib
 import re
 import os
+import sys
 import urllib
 
 
@@ -39,7 +40,7 @@ def getSons(data,year,month,userID):
 			url = "/blogread.asp?blog="+userID+"&catcode=&year="+year+"&month="+month+"&day=0&pagenum="+str(i+1)+"&catdesc="
 			data = getPage(url)
 			getComments(data)
-			getPictures(data)
+			data = getPictures(data)
 			writeToFile(data, year, month, str(i+1)+".html")
 			
 def getCommentsURL(blogCode, userCode):
@@ -67,18 +68,34 @@ def getPictures(data):
 		writeToFile(urllib.urlopen(url).read(),"pictures","",fileName)
 		data = re.sub(p,"../../pictures/"+fileName,data)
 	return data
+	
+def progress(count, total, status=''):
+    bar_len = 60
+    filled_len = int(round(bar_len * count / float(total)))
+
+    percents = round(100.0 * count / float(total), 1)
+    bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+    sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percents, '%', status))
+    sys.stdout.flush()
 
 	
 #origin = "62816"		
 userID = raw_input("Type in your userID: ")
+print "\nThis may take some time.. Have a cuppa cofee or something\n"
 urlStart = "/blogread.asp?blog="+userID
 archive = getArchive(urlStart)
+progressCount = 1
 	
 for date in archive:
 	[month,year] = date.split('/')
+	progress(progressCount, len(archive), (date if int(month)>9 else "0"+date))
+	progressCount+=1
 	url = urlStart+"&year="+year+"&month="+month
 	data = getPage(url)
 	getComments(data)
-	getPictures(data)
+	data = getPictures(data)
 	writeToFile(data, year, month, "1.html")
 	getSons(data, year, month, userID)
+	
+print "\n\nAaand we are done! Thank you and have a great day ahead."
