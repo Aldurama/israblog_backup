@@ -21,6 +21,7 @@ Insert the userID and after a few minutes (the exact time depends on how big is 
 - page number links
 - archive links on the side  
 - show comments here and popup links  
+- now saving pictures too  
 - other things will probably not work, but you are welcome to try :P (I just worked on the essentials)  
 
 # donations  
