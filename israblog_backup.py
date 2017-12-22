@@ -1,6 +1,8 @@
 import httplib
 import re
 import os
+import urllib
+
 
 def changeFunSrc(data):
 	return re.sub("/functions.js","../../../functions.js",re.sub("Include.js","../../../Include.js",data))
@@ -9,7 +11,7 @@ def getPage(url):
 	conn = httplib.HTTPConnection("israblog.nana10.co.il")
 	conn.request("GET", url)
 	r = conn.getresponse()
-	print r.status, r.reason
+	#print r.status, r.reason
 	data = r.read()
 	conn.close()
 	return changeFunSrc(data)
@@ -23,11 +25,11 @@ def getArchive(url):
 		del archive[-1]
 	return archive
 	
-def writeToFile(data, year, month, pageNum):
-	dir_path = "./blog/"+year+"/"+month+"/"
+def writeToFile(data, firstDir, secondDir, fileName):
+	dir_path = "./blog/"+firstDir+"/"+secondDir+"/"
 	if not os.path.isdir(dir_path):
 		os.makedirs(dir_path)
-	with open(dir_path+pageNum+".html",'w') as f:
+	with open(dir_path+fileName,'wb') as f:
 		f.write(data)
 		
 def getSons(data,year,month,userID):
@@ -37,7 +39,8 @@ def getSons(data,year,month,userID):
 			url = "/blogread.asp?blog="+userID+"&catcode=&year="+year+"&month="+month+"&day=0&pagenum="+str(i+1)+"&catdesc="
 			data = getPage(url)
 			getComments(data)
-			writeToFile(data, year, month, str(i+1))
+			getPictures(data)
+			writeToFile(data, year, month, str(i+1)+".html")
 			
 def getCommentsURL(blogCode, userCode):
 	url = "/comments.asp?newcomment=";
@@ -55,18 +58,27 @@ def getComments(data):
 	for [blogCode,userCode] in codes:
 		url = getCommentsURL(blogCode,userCode)
 		data = getPage(url)
-		writeToFile(data,"comments","",blogCode)
+		writeToFile(data,"comments","",blogCode+".html")
+		
+def getPictures(data):
+	p = re.compile("http://f\.nanafiles\.co\.il/upload[a-zA-Z0-9/]*\.(?:gif|png|jpg|GIF|PNG|JPG)")
+	for url in re.findall(p,data):
+		fileName = url.split('/')[-1]
+		writeToFile(urllib.urlopen(url).read(),"pictures","",fileName)
+		data = re.sub(p,"../../pictures/"+fileName,data)
+	return data
 
-				
+	
+#origin = "62816"		
 userID = raw_input("Type in your userID: ")
 urlStart = "/blogread.asp?blog="+userID
 archive = getArchive(urlStart)
-
-
+	
 for date in archive:
 	[month,year] = date.split('/')
 	url = urlStart+"&year="+year+"&month="+month
 	data = getPage(url)
 	getComments(data)
-	writeToFile(data, year, month, "1")
+	getPictures(data)
+	writeToFile(data, year, month, "1.html")
 	getSons(data, year, month, userID)
