@@ -11,7 +11,7 @@ There are two options to run the script:
 A. download the "israblog_backup.py" and the "include.js" files and run the python script.  
 B. download the "israblog_backup.zip" file, extract the content and run the "israblog_backup.exe" file.  
   
-After you ran it, it will ask you for your userID, this can be found here:  
+After you ran it, it will ask you for your userID, which can be found here:  
 <img src="https://i.imgur.com/SFo8axq.png">  
 
 Insert the userID and after a few minutes (the exact time depends on how big is your blog) you should see a directory named "blog" with your blog in it, arranged by date. 
