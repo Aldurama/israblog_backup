@@ -66,7 +66,7 @@ def getPictures(data):
 	for url in re.findall(p,data):
 		fileName = url.split('/')[-1]
 		writeToFile(urllib.urlopen(url).read(),"pictures","",fileName)
-		data = re.sub(p,"../../pictures/"+fileName,data)
+		data = re.sub(url,"../../pictures/"+fileName,data)
 	return data
 	
 def progress(count, total, status=''):
