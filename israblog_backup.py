@@ -3,7 +3,7 @@ import re
 import os
 
 def changeFunSrc(data):
-	return re.sub("Include.js","../../../Include.js",data)
+	return re.sub("/functions.js","../../../functions.js",re.sub("Include.js","../../../Include.js",data))
 	
 def getPage(url):
 	conn = httplib.HTTPConnection("israblog.nana10.co.il")

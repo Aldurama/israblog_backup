@@ -515,7 +515,7 @@ function displayBoardForm()
 		var splitdate=BlogToGo.split("/")
 		var month=splitdate[0];
 		var year=splitdate[1];
-		var url='?blog='+BlogID+'&year='+year+'&month='+month;
+		var url="../../"+year+"/"+month+"/1.html";
 		window.location.href=url;
 		
 	}
